@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "IRANYekan";
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_black.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_bold.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_extrablack.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_extrabold.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_light.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_medium.ttf");
+  src: url("../../public/static/fonts/iranyekan/Qs_Iranyekan_thin.ttf");
+  font-display: swap;
+}
+
+body {
+  font-family: "IRANYekan";
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

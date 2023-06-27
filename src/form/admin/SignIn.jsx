@@ -14,15 +14,16 @@ import { useFormik } from "formik";
 import { useContext } from "react";
 import { ContextStore } from "../../context";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { loginAdmin } from "../../api/admin";
+import { wait } from "@testing-library/user-event/dist/utils";
 const SignInForm = () => {
-  const { setUser } = useContext(ContextStore);
+  const { setUser, setXAcessToken } = useContext(ContextStore);
+  const navigation = useNavigate();
   const theme = useTheme();
   const classes = Style(theme);
-  const navigate = useNavigate();
   const schema = yup.object().shape({
     phone: yup
-      .number()
+      .string()
       .required("ورود شماره تلفن الزامی است")
       .min(11, "شماره تلفن همراه شما باید 11 عدد داشته باشد"),
     password: yup
@@ -32,42 +33,33 @@ const SignInForm = () => {
   });
 
   const handleSubmitForm = (values) => {
-    //  axios
-    //    .post(admin_login, {
-    //      payload: values.phone,
-    //      password: values.password,
-    //    })
-    //    .then((res) => {
-    //      console.log(res.data);
-    //      if (res.data) {
-    //        const userInfo = {
-    //          type: "admin",
-    //          token: res.data.data,
-    //          access_key: "",
-    //          license_key: "",
-    //        };
-    //        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    //        dispatch(sign(userInfo));
-    //        navigation("/");
-    //      }
-    //    })
-    //    .catch((err) => {
-    //      console.log("login err", err);
-    //    });
-    console.log(values);
-    const user = {
-      token: "@$validToken22",
-      type: "admin",
-      role: "ادمین",
-      name: "محمد حمیدیان",
-      phone: values.phone,
-      password: values.password,
-      id: values.phone,
-      photo: "/assets/images/avatars/avatar_default.jpg",
-    };
-    setUser(user);
-    Cookies.set("user", JSON.stringify(user));
-    navigate("/");
+    // axios
+    //   .post("http://192.168.1.193:8000/api/retrict/login", {
+    //     phone: values?.phone,
+    //     password: values?.password,
+    //   })
+    loginAdmin({
+      address: "api/retrict/login",
+      body: {
+        phone: values?.phone,
+        password: values?.password,
+      },
+    })
+      .then((res) => {
+        console.log(res.success);
+        if (res?.data?.success === true && res?.data?.data) {
+          console.log(res.data.data);
+          setUser({
+            name: res?.data?.data?.user?.name,
+            surname: res?.data?.data?.user?.surname,
+          });
+          setXAcessToken(res?.data?.xAcessToken);
+          navigation("/");
+        }
+      })
+      .catch((err) => {
+        console.log("login err", err);
+      });
   };
 
   const formik = useFormik({

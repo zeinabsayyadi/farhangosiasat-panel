@@ -26,31 +26,18 @@ import Video from "../pages/Posts/Videos.js/Video";
 import CreateVideo from "../pages/Posts/Videos.js/CreateVideo";
 
 const CustomRoutes = () => {
-  let user = Cookies?.get("user") && JSON.parse(Cookies?.get("user"));
+  //let user = Cookies?.get("user") && JSON.parse(Cookies?.get("user"));
 
-  let { setUser } = useContext(ContextStore);
+  let { user, xAccessToken } = useContext(ContextStore);
 
   useEffect(() => {
-    if (user) {
-      setUser(user);
-    } else if (!user) {
-      setUser({
-        id: "",
-        type: null,
-        role: "",
-        token: null,
-        name: "",
-        phone: "",
-        password: "",
-        photo: "",
-      });
-    }
-  }, []);
+    console.log("in / route:", xAccessToken);
+  }, [user, xAccessToken]);
 
   const routes = useRoutes([
     {
       path: "/",
-      element: <Navigate to={user?.token ? "dashboard" : "sign-in"} />,
+      element: <Navigate to={xAccessToken ? "dashboard" : "sign-in"} />,
     },
     {
       path: "dashboard",
@@ -148,7 +135,7 @@ const CustomRoutes = () => {
       element: <SignIn />,
     },
   ]);
-  return routes;
+  return xAccessToken ?? routes;
 };
 
 export default CustomRoutes;

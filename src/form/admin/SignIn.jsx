@@ -11,16 +11,24 @@ import {
 import * as yup from "yup";
 import { Style } from "../formStyle";
 import { useFormik } from "formik";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ContextStore } from "../../context";
 import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../api/admin";
-import { wait } from "@testing-library/user-event/dist/utils";
+
 const SignInForm = () => {
-  const { setUser, setXAcessToken } = useContext(ContextStore);
+  const { setUser, setXAcessToken, xAccessToken } = useContext(ContextStore);
   const navigation = useNavigate();
   const theme = useTheme();
   const classes = Style(theme);
+
+  useEffect(() => {
+    if (xAccessToken?.length > 2) {
+      console.log(xAccessToken);
+      navigation("/");
+    }
+  }, [xAccessToken]);
+
   const schema = yup.object().shape({
     phone: yup
       .string()
@@ -33,11 +41,6 @@ const SignInForm = () => {
   });
 
   const handleSubmitForm = (values) => {
-    // axios
-    //   .post("http://192.168.1.193:8000/api/retrict/login", {
-    //     phone: values?.phone,
-    //     password: values?.password,
-    //   })
     loginAdmin({
       address: "api/retrict/login",
       body: {
@@ -46,16 +49,14 @@ const SignInForm = () => {
       },
     })
       .then((res) => {
-        console.log(res.success);
         if (res?.data?.success === true && res?.data?.data) {
           console.log(res.data.data);
-          setUser({
-            name: res?.data?.data?.user?.name,
-            surname: res?.data?.data?.user?.surname,
-          });
-          setXAcessToken(res?.data?.xAcessToken);
-          navigation("/");
+          return res.data.data;
         }
+      })
+      .then((res) => {
+        setUser(res?.user);
+        setXAcessToken(res?.xAccessToken);
       })
       .catch((err) => {
         console.log("login err", err);

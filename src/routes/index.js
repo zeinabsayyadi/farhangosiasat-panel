@@ -135,7 +135,7 @@ const CustomRoutes = () => {
       element: <SignIn />,
     },
   ]);
-  return xAccessToken ?? routes;
+  return routes;
 };
 
 export default CustomRoutes;

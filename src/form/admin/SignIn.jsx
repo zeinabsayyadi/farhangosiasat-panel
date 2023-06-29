@@ -15,6 +15,7 @@ import { useContext, useEffect } from "react";
 import { ContextStore } from "../../context";
 import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../api/admin";
+import Cookies from "js-cookie";
 
 const SignInForm = () => {
   const { setUser, setXAcessToken, xAccessToken } = useContext(ContextStore);
@@ -42,21 +43,24 @@ const SignInForm = () => {
 
   const handleSubmitForm = (values) => {
     loginAdmin({
-      address: "api/retrict/login",
+      address: "/api/retrict/login",
       body: {
         phone: values?.phone,
         password: values?.password,
       },
     })
       .then((res) => {
-        if (res?.data?.success === true && res?.data?.data) {
-          console.log(res.data.data);
-          return res.data.data;
+        console.log("res in first then ", res);
+        if (res?.data?.success === true && res?.data?.payload) {
+          console.log(res?.data?.message);
+          return res?.data?.payload;
         }
       })
       .then((res) => {
+        console.log(res);
         setUser(res?.user);
         setXAcessToken(res?.xAccessToken);
+        Cookies.set("xAccessToken", res?.xAccessToken, { expires: 0.125 }); // expire after 3 h
       })
       .catch((err) => {
         console.log("login err", err);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `http://192.168.1.193:8000/`; //api url it must have a api perfix !
+const BASE_URL = `http://192.168.1.193:8000`; //api url it must have a api perfix !
 const api_url = (uri = "") => `${BASE_URL}${uri}`; // base_url must be config.api_url
 const opt = (head = { token: "" }) => ({
   headers: { "x-access-token": head?.token, "content-type": head?.contentType },
@@ -11,6 +11,9 @@ const opt = (head = { token: "" }) => ({
 export const loginAdmin = (data) =>
   axios.post(api_url(data?.address), data.body);
 //post user data to server and get response
+
+export const loginAdminByToken = (data, head) =>
+  axios.post(api_url(data?.address), data?.body, opt(head));
 
 //--------------------------------------
 export const getAllArticles = (data, head) =>

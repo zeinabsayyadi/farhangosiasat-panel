@@ -3,7 +3,6 @@ import Layout from "../layout";
 import { useContext, useEffect } from "react";
 import { ContextStore } from "../context";
 import SignIn from "../pages/SignIn";
-import Cookies from "js-cookie";
 import Account from "../pages/Account";
 import Posts from "../pages/Posts";
 import Articles from "../pages/Posts/Articles/inex";
@@ -26,13 +25,8 @@ import Video from "../pages/Posts/Videos.js/Video";
 import CreateVideo from "../pages/Posts/Videos.js/CreateVideo";
 
 const CustomRoutes = () => {
-  //let user = Cookies?.get("user") && JSON.parse(Cookies?.get("user"));
-
-  let { user, xAccessToken } = useContext(ContextStore);
-
-  useEffect(() => {
-    console.log("in / route:", xAccessToken);
-  }, [user, xAccessToken]);
+  //console.log("cookie", cookiesToken);
+  let { xAccessToken } = useContext(ContextStore);
 
   const routes = useRoutes([
     {
@@ -44,7 +38,7 @@ const CustomRoutes = () => {
       element: <Layout />,
       children: [
         {
-          element: <Navigate to={`/dashboard/account`} />,
+          element: <Navigate to={`/dashboard/posts`} />,
           index: true,
         },
         {

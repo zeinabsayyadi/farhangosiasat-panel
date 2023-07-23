@@ -18,7 +18,7 @@ function App() {
 
   const loginbyToken = (coockieToken) => {
     loginAdminByToken(
-      { address: "/api/retrict/loginbytoken" },
+      { address: "/api/restrict/loginbytoken" },
       { token: coockieToken }
     )
       .then((res) => {

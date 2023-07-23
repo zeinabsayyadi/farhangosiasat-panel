@@ -9,12 +9,12 @@ import {
   useTheme,
 } from "@mui/material";
 import * as yup from "yup";
-import { Style } from "../formStyle";
+import { Style } from "./formStyle";
 import { useFormik } from "formik";
 import { useContext, useEffect } from "react";
-import { ContextStore } from "../../context";
+import { ContextStore } from "../context";
 import { useNavigate } from "react-router-dom";
-import { loginAdmin } from "../../api/admin";
+import { loginAdmin } from "../api/admin";
 import Cookies from "js-cookie";
 
 const SignInForm = () => {
@@ -43,7 +43,7 @@ const SignInForm = () => {
 
   const handleSubmitForm = (values) => {
     loginAdmin({
-      address: "/api/retrict/login",
+      address: "/api/restrict/login",
       body: {
         phone: values?.phone,
         password: values?.password,

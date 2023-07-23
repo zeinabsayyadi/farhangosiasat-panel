@@ -10,21 +10,13 @@ import {
   CardContent,
   useTheme,
   CardActionArea,
-  CardHeader,
-  IconButton,
-  Menu,
-  MenuItem,
+
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 // utils
 import { fDate } from "../../../utils/formatTime";
-import { useContext, useState } from "react";
-import { ContextStore } from "../../../context";
 import { NavLink } from "react-router-dom";
-import {
-  deleteArticle as deleteArticle_api,
-  putArticle as putArticle_api,
-} from "../../../api/admin";
+import CustomCardHeader from "./CardHeader";
 
 // ----------------------------------------------------------------------
 
@@ -72,46 +64,8 @@ const ArticleCard = ({ article, index }) => {
     //author,
     createdAt,
   } = article;
-  const { user } = useContext(ContextStore);
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = useState("");
-  const open = Boolean(anchorEl);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleMoreVert = (e) => {
-    setAnchorEl(e.currentTarget);
-    //setCurrentArticle(current);
-  };
-  let data = {
-    address: "article/4",
-    body: {
-      content: "rejgoijhrhjoesjhsoegjeogj",
-    },
-  };
-  const editeArticle = async (data) => {
-    //myDispatch({ type: "backdrop_show" });
-    try {
-      const res = await putArticle_api(data, { token: "admin" });
-      console.log(res.data);
-      return true;
-    } catch (rej) {
-      alert(rej);
-      return false;
-    }
-  };
-
-  const deleteArticle = async (data) => {
-    //myDispatch({ type: "backdrop_show" });
-    try {
-      const res = await deleteArticle_api(data, { token: "admin" });
-      console.log(res?.data);
-      return true;
-    } catch (rej) {
-      alert(rej);
-      return false;
-    }
-  };
+ 
 
   return (
     <Grid
@@ -121,38 +75,7 @@ const ArticleCard = ({ article, index }) => {
       md={4}
     >
       <Card sx={{ position: "relative" }}>
-        <CardHeader
-          sx={{
-            position: "reletive",
-            paddingTop: "0.5rem",
-          }}
-          action={
-            <>
-              <IconButton
-                aria-label="more"
-                onClick={handleMoreVert}
-                aria-haspopup="true"
-                aria-controls="long-menu"
-              >
-                <MoreVertIcon color="white" />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                open={open}
-              >
-                <NavLink to="/Edite">
-                  <MenuItem onClick={() => editeArticle(data)}>Edite</MenuItem>
-                </NavLink>
-                <NavLink to="/Articles">
-                  <MenuItem onClick={() => deleteArticle(data)}>
-                    Delete
-                  </MenuItem>
-                </NavLink>
-              </Menu>
-            </>
-          }
-        />
+        <CustomCardHeader/>
         <CardActionArea onClick={() => console.log(" go to card single page")}>
           <StyledCardMedia
             sx={{
@@ -180,7 +103,6 @@ const ArticleCard = ({ article, index }) => {
               src={cover}
             />
           </StyledCardMedia>
-
           <CardContent
             sx={{
               pt: 4,

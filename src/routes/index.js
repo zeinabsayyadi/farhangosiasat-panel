@@ -1,12 +1,11 @@
 import { Navigate, useRoutes } from "react-router-dom";
 import Layout from "../layout";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ContextStore } from "../context";
 import SignIn from "../pages/SignIn";
 import Account from "../pages/Account";
 import Posts from "../pages/Posts";
 import Articles from "../pages/Posts/Articles/inex";
-import CreateArticle from "../pages/Posts/Articles/CreateArticle";
 import AoudioBooks from "../pages/Posts/AudioBooks/inex";
 import AoudioBook from "../pages/Posts/AudioBooks/AoudioBook";
 import CreateAoudioBook from "../pages/Posts/AudioBooks/CreateAoudioBook";
@@ -23,6 +22,8 @@ import CreatePodcast from "../pages/Posts/Podcasts/CreatePodcast";
 import Videos from "../pages/Posts/Videos.js/inex";
 import Video from "../pages/Posts/Videos.js/Video";
 import CreateVideo from "../pages/Posts/Videos.js/CreateVideo";
+import CreateArticleForm from "../form/CreateArticleForm";
+import TestForm from "../form/TestForm";
 
 const CustomRoutes = () => {
   //console.log("cookie", cookiesToken);
@@ -60,7 +61,8 @@ const CustomRoutes = () => {
         },
         {
           path: "posts/articles/create-article",
-          element: <CreateArticle />,
+          //element: <CreateArticleForm />,
+          element: <TestForm />,
         },
         {
           path: "posts/aoudio-books",

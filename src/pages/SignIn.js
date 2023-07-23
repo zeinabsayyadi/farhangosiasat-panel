@@ -1,4 +1,4 @@
-import SignInForm from "../form/admin/SignIn";
+import SignInForm from "../form/SignIn";
 
 const SignIn = () => {
   return (
